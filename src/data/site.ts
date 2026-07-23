@@ -38,9 +38,9 @@ export const products = [
     description:
       "一款面向 macOS 的本地数据库查询工作台，帮助你整理连接并专注于日常查询工作。",
     features: ["连接管理", "查询工作区", "亮色 / 暗色"],
-    imageLight: "/images/pipa-light.png",
-    imageDark: "/images/pipa-dark.png",
-    imageAlt: "Pipa 应用的数据库连接工作区界面",
+    imageLight: "/images/pipa-cover.png",
+    imageDark: null,
+    imageAlt: "Pipa 本地数据库工作台的软件展示封面",
     downloadUrl:
       "https://github.com/AlasicPlat/pipa/releases/latest/download/Pipa-macOS-arm64.dmg",
     releasesUrl: "https://github.com/AlasicPlat/pipa/releases/latest",
