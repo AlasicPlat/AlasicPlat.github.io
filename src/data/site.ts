@@ -3,10 +3,10 @@ export const site = {
   title: "Alasic — 独立开发者与 macOS 软件",
   description:
     "Alasic 的个人网站，记录正在打磨的高效办公软件 Puer（普洱）与 Pipa（枇杷）。",
-  intro: "你好，我是 Alasic, 一名5年的后端",
+  intro: "你好，我是 Alasic, 一名5年的后端。",
   headline: "把复杂工具，\n做得更轻一点。",
   summary:
-    "这里记录我正在打磨的 macOS 软件，以及一些持续发生的想法与实验。个人介绍还在慢慢整理，先让作品和你见面。",
+    "这里记录我正在打磨的软件，以及一些持续发生的想法与实验。个人介绍还在慢慢整理，先让作品和你见面。",
   githubUrl: "https://github.com/AlasicPlat",
 } as const;
 
@@ -17,7 +17,7 @@ export const products = [
     name: "Puer",
     chineseName: "普洱",
     category: "本地数据工作台",
-    headline: "在 Mac 上，更轻松地处理表格。",
+    headline: "高性能地处理表格。",
     description:
       "一款本地优先的电子表格桌面应用，用于打开、查看和处理常见表格与结构化数据。",
     features: ["XLSX / CSV", "JSON / JSONL", "本地处理"],
