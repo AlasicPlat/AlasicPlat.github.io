@@ -20,10 +20,10 @@ export const products = [
     headline: "高性能地处理表格。",
     description:
       "一款本地优先的电子表格桌面应用，用于打开、查看和处理常见表格与结构化数据。",
-    features: ["XLSX / CSV", "JSON / JSONL", "本地处理"],
+    features: ["多格式编辑", "去重 / 分列", "本地处理"],
     imageLight: "/images/puer.png",
     imageDark: null,
-    imageAlt: "Puer 应用的本地文件工作区界面",
+    imageAlt: "Puer 本地表格工作台的软件展示封面",
     downloadUrl:
       "https://github.com/AlasicPlat/puer/releases/latest/download/Puer-macOS-arm64.dmg",
     releasesUrl: "https://github.com/AlasicPlat/puer/releases/latest",
