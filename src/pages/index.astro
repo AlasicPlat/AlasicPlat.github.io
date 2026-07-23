@@ -1,0 +1,168 @@
+---
+import { products, site } from "../data/site";
+import "../styles/global.css";
+
+const currentYear = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={site.description} />
+    <meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#11120f" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={site.title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:url" content={Astro.site} />
+    <meta property="og:image" content={new URL("/og.png", Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={site.title} />
+    <meta name="twitter:description" content={site.description} />
+    <meta name="twitter:image" content={new URL("/og.png", Astro.site)} />
+    <link rel="canonical" href={Astro.site} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{site.title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header shell">
+      <a class="brand" href="#top" aria-label="返回首页顶部">
+        <img src="/brand/alasic.png" alt="" width="30" height="30" />
+        <span>{site.name}</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#work">作品</a>
+        <a href="#about">关于</a>
+        <a href={site.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero shell" id="top" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">Independent macOS developer</p>
+          <h1 id="hero-title">{site.headline}</h1>
+          <p class="hero-copy">{site.summary}</p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="#work">看看我的作品</a>
+            <a class="button" href={site.githubUrl} target="_blank" rel="noreferrer">访问 GitHub</a>
+          </div>
+        </div>
+
+        <aside class="hero-note" aria-label="正在制作的软件">
+          {products.map((product) => (
+            <div class="hero-note-row">
+              <strong>{product.name} · {product.chineseName}</strong>
+              <span>{product.category}</span>
+            </div>
+          ))}
+        </aside>
+      </section>
+
+      <section class="products shell" id="work" aria-labelledby="work-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Selected work</p>
+            <h2 id="work-title">正在打磨的两个工具。</h2>
+          </div>
+          <p>都为 macOS 而做，也都尽量把数据留在你的设备上。</p>
+        </div>
+
+        <div class="product-list">
+          {products.map((product) => (
+            <article class={`product product--${product.slug}`}>
+              <div class="product-content">
+                <div class="product-meta">
+                  <p class="product-number">{product.number}</p>
+                  <span class="product-dot" aria-hidden="true"></span>
+                  <p class="product-category">{product.category}</p>
+                </div>
+                <h3>
+                  {product.name}
+                  <span class="product-name-cn">{product.chineseName}</span>
+                </h3>
+                <p class="product-headline">{product.headline}</p>
+                <p class="product-description">{product.description}</p>
+                <ul class="feature-list" aria-label={`${product.name} 特点`}>
+                  {product.features.map((feature) => <li>{feature}</li>)}
+                </ul>
+                <div class="product-actions">
+                  <a
+                    class="button button--primary"
+                    href={product.downloadUrl}
+                    aria-label={`下载 ${product.name} 最新版`}
+                  >
+                    下载最新版
+                  </a>
+                  <a
+                    class="button"
+                    href={product.releasesUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`查看 ${product.name} 版本记录`}
+                  >
+                    版本记录
+                  </a>
+                </div>
+                <p class="product-support">适用于 Apple 芯片 Mac</p>
+              </div>
+
+              <div class="product-media">
+                {product.imageDark ? (
+                  <picture>
+                    <source media="(prefers-color-scheme: dark)" srcset={product.imageDark} />
+                    <img
+                      src={product.imageLight}
+                      alt={product.imageAlt}
+                      width="1795"
+                      height="1130"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                ) : (
+                  <img
+                    src={product.imageLight}
+                    alt={product.imageAlt}
+                    width="1794"
+                    height="1125"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="about shell" id="about" aria-labelledby="about-title">
+        <div>
+          <p class="section-label">About</p>
+          <h2 id="about-title">先认真做东西，介绍可以慢慢写。</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            {site.intro} 我关注本地优先、桌面体验和那些日常使用中真正重要的小细节。这里的内容还会继续生长。
+          </p>
+          <dl class="principles">
+            <div><dt>01</dt><dd>本地优先</dd></div>
+            <div><dt>02</dt><dd>为 macOS 打磨</dd></div>
+            <div><dt>03</dt><dd>保持长期迭代</dd></div>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer shell">
+      <span>© {currentYear} {site.name}. Built with care.</span>
+      <a href={site.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>
+    </footer>
+  </body>
+</html>
