@@ -15,4 +15,6 @@ npm run dev
 npm run build
 ```
 
+推送到 `main` 分支后，GitHub Actions 会自动构建并发布网站。
+
 个人介绍和产品文案集中在 `src/data/site.ts`，产品截图位于 `public/images/`。
