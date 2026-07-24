@@ -36,8 +36,8 @@ export const products = [
     category: "本地数据库工具",
     headline: "让数据库工作区保持清爽、专注。",
     description:
-      "一款面向 macOS 的本地数据库查询工作台，帮助你整理连接并专注于日常查询工作。",
-    features: ["连接管理", "查询工作区", "亮色 / 暗色"],
+      "一款面向 macOS 的本地优先数据库工作台，支持 MySQL 查询、Redis 连接管理，以及可指定连接的本机 MCP 接入。",
+    features: ["MySQL 查询", "MCP 控制台", "多格式导出"],
     imageLight: "/images/pipa-cover.png",
     imageDark: null,
     imageAlt: "Pipa 本地数据库工作台的软件展示封面",
