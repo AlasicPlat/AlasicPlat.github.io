@@ -3,6 +3,21 @@ import { products, site } from "../data/site";
 import "../styles/global.css";
 
 const currentYear = new Date().getFullYear();
+
+/** Headline is authored with a newline so the second line can carry the gradient. */
+const headlineLines = site.headline.split("\n");
+
+/** Accent colour token per product, reused by hero panel and product cards. */
+const accentBySlug: Record<string, string> = {
+  puer: "var(--blue)",
+  pipa: "var(--orange)",
+};
+
+const principles = [
+  { number: "01", label: "本地优先", accent: "var(--blue)" },
+  { number: "02", label: "为 macOS 打磨", accent: "var(--orange)" },
+  { number: "03", label: "保持长期迭代", accent: "var(--leaf)" },
+];
 ---
 
 <!doctype html>
@@ -31,53 +46,87 @@ const currentYear = new Date().getFullYear();
   <body>
     <a class="skip-link" href="#main">跳到主要内容</a>
 
-    <header class="site-header shell">
-      <a class="brand" href="#top" aria-label="返回首页顶部">
-        <img src="/brand/alasic.png" alt="" width="30" height="30" />
-        <span>{site.name}</span>
-      </a>
-      <nav class="site-nav" aria-label="主导航">
-        <a href="#work">作品</a>
-        <a href="#about">关于</a>
-        <a href={site.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
-      </nav>
-    </header>
+    <div class="ambient" aria-hidden="true">
+      <span class="ambient-blob ambient-blob--one"></span>
+      <span class="ambient-blob ambient-blob--two"></span>
+      <span class="ambient-blob ambient-blob--three"></span>
+    </div>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+    <div class="site-header-wrap" id="site-header-wrap">
+      <header class="site-header shell">
+        <a class="brand" href="#top" aria-label="返回首页顶部">
+          <img src="/brand/alasic.png" alt="" width="30" height="30" />
+          <span>{site.name}</span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#work">作品</a>
+          <a href="#about">关于</a>
+          <a href={site.githubUrl} target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
+      </header>
+    </div>
 
     <main id="main">
       <section class="hero shell" id="top" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">Independent macOS developer</p>
-          <h1 id="hero-title">{site.headline}</h1>
-          <p class="hero-copy">{site.summary}</p>
-          <div class="hero-actions">
-            <a class="button button--primary" href="#work">看看我的作品</a>
-            <a class="button" href={site.githubUrl} target="_blank" rel="noreferrer">访问 GitHub</a>
+          <p class="eyebrow" data-reveal>
+            <span class="eyebrow-pulse" aria-hidden="true"></span>
+            Independent macOS developer
+          </p>
+          <h1 id="hero-title" data-reveal style="--reveal-delay: 80ms">
+            {headlineLines.map((line, index) => (
+              <span class={`headline-line${index > 0 ? " headline-line--accent" : ""}`}>
+                {line}
+              </span>
+            ))}
+          </h1>
+          <p class="hero-copy" data-reveal style="--reveal-delay: 160ms">{site.summary}</p>
+          <div class="hero-actions" data-reveal style="--reveal-delay: 240ms">
+            <a class="button button--primary" href="#work">
+              看看我的作品
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="button" href={site.githubUrl} target="_blank" rel="noreferrer">
+              访问 GitHub
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
 
-        <aside class="hero-note" aria-label="正在制作的软件">
+        <aside class="hero-note" aria-label="正在制作的软件" data-reveal style="--reveal-delay: 320ms">
           {products.map((product) => (
-            <div class="hero-note-row">
-              <strong>{product.name} · {product.chineseName}</strong>
-              <span>{product.category}</span>
-            </div>
+            <a
+              class="hero-note-row"
+              href={`#${product.slug}`}
+              style={`--accent: ${accentBySlug[product.slug] ?? "var(--blue)"}`}
+            >
+              <span class="hero-note-swatch" aria-hidden="true"></span>
+              <span class="hero-note-text">
+                <strong>{product.name} · {product.chineseName}</strong>
+                <span>{product.category}</span>
+              </span>
+              <span class="hero-note-arrow" aria-hidden="true">↗</span>
+            </a>
           ))}
         </aside>
       </section>
 
       <section class="products shell" id="work" aria-labelledby="work-title">
         <div class="section-heading">
-          <div>
+          <div data-reveal>
             <p class="section-label">Selected work</p>
             <h2 id="work-title">正在打磨的两个工具。</h2>
           </div>
-          <p>都为 macOS 而做，也都尽量把数据留在你的设备上。</p>
+          <p data-reveal style="--reveal-delay: 120ms">
+            都为 macOS 而做，也都尽量把数据留在你的设备上。
+          </p>
         </div>
 
         <div class="product-list">
           {products.map((product) => (
-            <article class={`product product--${product.slug}`}>
-              <div class="product-content">
+            <article class={`product product--${product.slug}`} id={product.slug}>
+              <div class="product-content" data-reveal>
                 <div class="product-meta">
                   <p class="product-number">{product.number}</p>
                   <span class="product-dot" aria-hidden="true"></span>
@@ -99,6 +148,7 @@ const currentYear = new Date().getFullYear();
                     aria-label={`下载 ${product.name} 最新版`}
                   >
                     下载最新版
+                    <span class="button-arrow" aria-hidden="true">↓</span>
                   </a>
                   <a
                     class="button"
@@ -108,34 +158,44 @@ const currentYear = new Date().getFullYear();
                     aria-label={`查看 ${product.name} 版本记录`}
                   >
                     版本记录
+                    <span class="button-arrow" aria-hidden="true">↗</span>
                   </a>
                 </div>
                 <p class="product-support">适用于 Apple 芯片 Mac</p>
               </div>
 
-              <div class="product-media">
-                {product.imageDark ? (
-                  <picture>
-                    <source media="(prefers-color-scheme: dark)" srcset={product.imageDark} />
+              <div class="product-media" data-reveal style="--reveal-delay: 120ms">
+                <span class="product-media-glow" aria-hidden="true"></span>
+                <div class="product-media-frame">
+                  <div class="window-bar" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span class="window-bar-title">{product.name}</span>
+                  </div>
+                  {product.imageDark ? (
+                    <picture>
+                      <source media="(prefers-color-scheme: dark)" srcset={product.imageDark} />
+                      <img
+                        src={product.imageLight}
+                        alt={product.imageAlt}
+                        width="1795"
+                        height="1130"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  ) : (
                     <img
                       src={product.imageLight}
                       alt={product.imageAlt}
-                      width="1795"
-                      height="1130"
+                      width="1794"
+                      height="1125"
                       loading="lazy"
                       decoding="async"
                     />
-                  </picture>
-                ) : (
-                  <img
-                    src={product.imageLight}
-                    alt={product.imageAlt}
-                    width="1794"
-                    height="1125"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
+                  )}
+                </div>
               </div>
             </article>
           ))}
@@ -143,18 +203,21 @@ const currentYear = new Date().getFullYear();
       </section>
 
       <section class="about shell" id="about" aria-labelledby="about-title">
-        <div>
+        <div data-reveal>
           <p class="section-label">About</p>
           <h2 id="about-title">先认真做东西，介绍可以慢慢写。</h2>
         </div>
-        <div class="about-copy">
+        <div class="about-copy" data-reveal style="--reveal-delay: 120ms">
           <p>
             {site.intro} 我关注本地优先、桌面体验和那些日常使用中真正重要的小细节。这里的内容还会继续生长。
           </p>
           <dl class="principles">
-            <div><dt>01</dt><dd>本地优先</dd></div>
-            <div><dt>02</dt><dd>为 macOS 打磨</dd></div>
-            <div><dt>03</dt><dd>保持长期迭代</dd></div>
+            {principles.map((principle) => (
+              <div style={`--accent: ${principle.accent}`}>
+                <dt>{principle.number}</dt>
+                <dd>{principle.label}</dd>
+              </div>
+            ))}
           </dl>
         </div>
       </section>
@@ -162,7 +225,56 @@ const currentYear = new Date().getFullYear();
 
     <footer class="site-footer shell">
       <span>© {currentYear} {site.name}. Built with care.</span>
-      <a href={site.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>
+      <a href={site.githubUrl} target="_blank" rel="noreferrer">
+        GitHub
+        <span class="button-arrow" aria-hidden="true">↗</span>
+      </a>
     </footer>
+
+    <script>
+      // Progressive enhancement only: the page is fully readable without JS.
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Scroll progress bar + sticky header state, batched into one rAF-throttled handler.
+      const progress = document.getElementById("scroll-progress");
+      const headerWrap = document.getElementById("site-header-wrap");
+      let ticking = false;
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+          progress?.style.setProperty("--progress", String(Math.min(1, Math.max(0, ratio))));
+          headerWrap?.classList.toggle("is-stuck", window.scrollY > 12);
+          ticking = false;
+        });
+      };
+
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+
+      // Reveal-on-scroll. Elements stay visible once shown, and observers are released.
+      const revealTargets = document.querySelectorAll("[data-reveal]");
+
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        revealTargets.forEach((element) => element.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+        );
+
+        revealTargets.forEach((element) => observer.observe(element));
+      }
+    </script>
   </body>
 </html>
